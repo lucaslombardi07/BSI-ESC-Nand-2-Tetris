@@ -1,1 +1,1 @@
-Projeto Final Lucas Lombardi BSI ESC 2021-2
+Projetos Nand 2 Tetris para	Elementos de Sistemas Computacionais - BSI - UFRPE.
