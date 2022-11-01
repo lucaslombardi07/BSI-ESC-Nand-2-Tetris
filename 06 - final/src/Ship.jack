@@ -1,0 +1,42 @@
+class Ship {
+    field int x;
+
+    constructor Ship new(){
+        let x = 256;
+        do move(0);
+        return this;
+    }
+
+    method void drawShip(){
+        do Screen.drawRectangle((x-12),242,(x+12),250);
+        do Screen.drawRectangle((x-4),234,(x+4),242);
+        return;
+    }
+
+    method void move(int i){
+        do Screen.setColor(false);
+        do drawShip();
+        let x = x + i;
+
+        if (x > 499){
+            let x = x - i;
+        }
+        if (x < 13){
+            let x = x - i; 
+        }
+
+        do Screen.setColor(true);
+        do drawShip();
+        return;
+    }
+
+    method int getX(){
+        return x;
+    }
+
+     method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

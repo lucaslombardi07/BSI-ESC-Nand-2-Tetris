@@ -1,0 +1,106 @@
+class Main {
+    function void main(){
+       var Ship ship;
+       var Random r;
+       var boolean fired;
+       var boolean run;
+       var int key;
+       var int x;
+       var Bullet shot;
+       var int shipSpeed;
+       var Meteor meteoro;
+       var string scoreTxt;
+       var int meteorSpeed;
+       var int bulletSpeed;
+       var int score;
+       var int level;
+       var string levelTxt;
+       var string pressSpace;
+       let pressSpace = "Aperte espaco para iniciar.";
+       let scoreTxt = "Score: ";
+       let levelTxt = "Level: ";
+       let level = 1;
+       let score = 0;
+       let bulletSpeed = 16;
+       let meteorSpeed = 1;
+       let run = false;
+       let shipSpeed = 7;
+       
+       
+        while (~run){
+            do Output.moveCursor(8, 16);
+            do Output.printString(pressSpace);
+
+            let key = Keyboard.keyPressed();
+            do Sys.wait(32);
+            if (key = 32){
+                let run = true;
+            }
+       }
+       
+       do Screen.clearScreen();
+       let meteoro = Meteor.new();
+       let r = Random.new(65);
+       let shot = Bullet.new();
+       let ship = Ship.new();
+       do meteoro.gerar();
+       
+       while (run){
+            let key = Keyboard.keyPressed();
+
+            if (key = 32 & (~shot.getState())){
+                do shot.fire(ship.getX());
+            }
+            if (key = 132){
+                do ship.move(shipSpeed);
+            }
+            if (key = 130){
+                do ship.move((0-shipSpeed));
+            }
+
+            if (shot.getState()){
+                do shot.move(bulletSpeed);
+                
+                if (meteoro.Xhit(shot.getX())){
+                
+                    if(meteoro.Yhit((shot.getY()))){
+                        do shot.stop();
+                        do meteoro.gerar();
+                        let score = score + 10;
+                
+                        if (20 > r.randRange(100)){
+                            let meteorSpeed = meteorSpeed + 1;
+                            let shipSpeed = shipSpeed + 1;
+                            let level = level + 1;
+                            let bulletSpeed = bulletSpeed + 1;
+                        }
+                    }
+                }        
+            }
+
+            do Sys.wait(32);
+            do Output.moveCursor(1, 16);
+            do Output.printString(scoreTxt);
+            do Output.printInt(score);
+            do Output.moveCursor(2, 16);
+            do Output.printString(levelTxt);
+            do Output.printInt(level);
+
+            do meteoro.fall(meteorSpeed);
+
+            if (meteoro.state()){
+                let run = false;
+            }
+            if (key = 90){
+                let run = false;
+            }
+       }
+       do Screen.clearScreen();
+       do Output.moveCursor(7, 16);
+       do Output.printString("Game Over");
+       do Output.moveCursor(9, 16);
+       do Output.printString("Final Score: ");
+       do Output.printInt(score);
+       return;
+    }
+}

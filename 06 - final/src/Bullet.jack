@@ -1,0 +1,62 @@
+class Bullet {
+    field int x, y;
+    field boolean state;
+
+
+    constructor Bullet new(){
+        let y = 233;
+        let state = false;
+        return this;
+    }
+
+    method void fire(int aX){
+        let state = true;
+        let x = aX;
+        return;
+    }
+    method void draw_shot(){
+        do Screen.drawRectangle((x-1),(y-20),(x+1),y);
+        return;
+    }
+
+    method void move(int bs){
+        do Screen.setColor(false);
+        do draw_shot();
+        let y = y - bs;
+        if (y < 20){
+            let state = false;
+            let y = 233;
+            return;
+        }
+        do Screen.setColor(true);
+        do draw_shot();
+
+        return;
+    }
+
+    method void stop(){
+        do Screen.setColor(false);
+        do draw_shot();
+        let state = false;
+        let y = 233;
+        return;
+    }
+
+    method int getX(){
+        return x;
+    }
+
+    method int getY(){
+        return y;
+    }
+
+    method boolean getState(){
+        return state;
+    }
+
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+}

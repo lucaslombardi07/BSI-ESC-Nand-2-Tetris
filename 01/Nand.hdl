@@ -1,0 +1,8 @@
+// Nand given by hardware god
+
+CHIP Nand{
+    IN a, b;
+    OUT out;
+
+    BUILTIN Nand;
+}

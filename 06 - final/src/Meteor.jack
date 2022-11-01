@@ -1,0 +1,73 @@
+class Meteor {
+    field int x; 
+    field int y;
+    //field int xMax;
+    //field int yMax;
+    field Random r;
+    field int size;
+    field boolean gameOver;
+
+    constructor Meteor new(){
+        let r = Random.new(132);
+        let size = (r.randRange(13) + 12);
+        let y = (2 + size);
+        let x = (r.randRange((455-size)) + (2 + size));
+        let gameOver = false;
+        return this;
+        //let yMax = (238 - size);
+        //let xMax = (455-size)
+    }
+
+    method void gerar(){
+        do Screen.setColor(false);
+        do draw();
+        let size = (r.randRange(10) + 12);
+        let y = (2 + size);
+        let x = (r.randRange((455-size)) + (2 + size));
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void draw(){
+        //do Screen.drawRectangle(x,(y-20),(x+20),y);
+        do Screen.drawCircle(x,y,size);
+        return;
+    }
+
+    method void fall(int speed){
+        do Screen.setColor(false);
+        do draw();
+        let y = y + speed;
+        if (y > (238-size)){
+            let gameOver = true;
+            return;
+        }
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method boolean state(){
+        return gameOver;
+    }
+
+
+    method int Xhit(int bx){
+        if (bx > (x-size) & (x+size) > bx){
+            return true; 
+        }
+        return false;
+    }
+
+    method int Yhit(int by){
+        if (by < y){
+            return true;
+        }
+        return false;
+    }
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+}

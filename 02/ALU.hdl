@@ -1,0 +1,32 @@
+CHIP ALU{
+    IN x[16], y[16], zx, nx, zy, ny, f, no;
+    OUT out[16], zr, ng;
+
+    PARTS:
+    Mux16(a= x, b= false, sel= zx, out= xx);
+    Not16(in= xx, out= xxx);
+    Mux16(a= xx, b= xxx, sel= nx, out= ox);
+
+    Mux16(a= y, b= false, sel= zy, out= yy);
+    Not16(in= yy, out= yyy);
+    Mux16(a= yy, b= yyy, sel= ny, out= oy);
+
+    Add16(a= ox, b= oy, out= ADDxy);
+
+    And16(a= ox, b= oy, out= ANDxy);
+
+    Mux16(a=ANDxy, b= ADDxy, sel= f, out= fxy);
+
+    Not16(in= fxy, out= nfxy);
+
+    Mux16(a= fxy, b= nfxy, sel= no, out[15]= ng, out = out,out= fout, out[0..7]=o7, out[8..15]=o15);  //onde o crime começava* 
+
+    Or8Way(in= o7, out= or7);
+    Or8Way(in= o15, out= or15);
+    Or(a= or7, b= or15, out= orzr);
+    Not(in= orzr, out= zr);
+
+    //Not16(in= fout, out= nfout);  
+    //And16Way(in= nfout, out= zr);  //contornado erro de sub bus
+
+}
